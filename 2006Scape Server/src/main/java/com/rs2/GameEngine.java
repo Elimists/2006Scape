@@ -14,8 +14,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.google.common.base.Stopwatch;
+import com.rs2.config.ConfigLoaderV2;
+import com.rs2.config.GameConfig;
+import com.rs2.config.ServerConfig;
 import com.rs2.game.npcs.Npc;
-import com.rs2.game.npcs.NpcList;
 import com.rs2.gui.ControlPanel;
 
 import com.rs2.util.CustomPrintStream;
@@ -70,7 +72,10 @@ public class GameEngine {
 
 	private static long minutesCounter;
 
-	private static void startMinutesCounter() {
+    public GameEngine() throws IOException {
+    }
+
+    private static void startMinutesCounter() {
 		try {
 			minuteFile = new BufferedReader(new FileReader(
 					Constants.SERVER_LOG_DIR + "minutes.log"));
@@ -121,44 +126,46 @@ public class GameEngine {
 	private final static Lock lock = new ReentrantLock();
 	public static ControlPanel panel;
 	private static long serverStartTime;
+	private static ServerConfig serverConfig;
+	private static GameConfig gameConfig;
 
 	static {
 		shutdownServer = false;
 	}
 
+	private static void processWithTiming(String name, Runnable process) {
+		long start = System.currentTimeMillis();
+		process.run();
+		long duration = System.currentTimeMillis() - start;
+		checkAndLogDuration(name, duration);
+	}
+
 	public static void main(java.lang.String[] args)
 			throws NullPointerException, IOException {
+		System.out.println("\n🟢 New JVM instance launched: " + java.time.Instant.now());
 		CustomPrintStream errorStream = new CustomPrintStream(System.err, "ERROR", true);
 		System.setErr(errorStream);
 		CustomPrintStream infoStream = new CustomPrintStream(System.out, "INFO", true);
 		System.setOut(infoStream);
 		serverStartTime = System.currentTimeMillis();
-		if (NetworkConstants.RSA_EXPONENT != Constants.RSA_EXPONENT) {
-			NetworkConstants.RSA_EXPONENT = Constants.RSA_EXPONENT;
-			NetworkConstants.RSA_MODULUS = Constants.RSA_MODULUS;
 
+		try {
+			serverConfig = ConfigLoaderV2.loadServerConfig();
+			System.out.println("✔ Server configuration loaded");
+		} catch (Exception e) {
+			System.err.println("x Failed to load server configuration. \n" + e.getMessage());
 		}
-		for (int i = 0; i < args.length; i++) {
-			if (args[i].equals("-gui"))
-				Constants.GUI_ENABLED = true;
-			if (args[i].startsWith("-") && (i + 1) < args.length && !args[i + 1].startsWith("-")) {
-				switch (args[i]) {
-					case "-c":
-					case "-config":
-						try {
-							System.out.println("Loading External Config..");
-							ConfigLoader.loadSettings(args[++i]);
-							System.out.println("Loaded Config File " + args[i]);
-						} catch (IOException e) {
-							System.out.println("Config File Not Found");
-						}
-						break;
-				}
-			}
+
+		try {
+			gameConfig = ConfigLoaderV2.loadGameConfig();
+			System.out.println("✔ Game configuration loaded");
+		} catch (Exception e) {
+			System.err.println("x Failed to load game configuration. \n" + e.getMessage());
 		}
+
 
 		System.out.println("Starting game engine..");
-		if (Constants.SERVER_DEBUG) {
+		if (serverConfig.isServerDebugEnabled()) {
 			System.out.println("@@@@ DEBUG MODE IS ENABLED @@@@");
 		}
 
@@ -178,13 +185,7 @@ public class GameEngine {
 		/**
 		 * Starting Up Server
 		 */
-		System.out.println("Launching " + Constants.SERVER_NAME + " World: " + Constants.WORLD + "...");
-
-		/**
-		 * Start Integration Services
-		 **/
-		ConfigLoader.loadSecrets();
-		JavaCord.init();
+		System.out.println("Launching " + serverConfig.getServerName() + " World: " + serverConfig.getWorldId() + "...");
 
 		/**
 		 * Accepting Connections
@@ -195,7 +196,6 @@ public class GameEngine {
 		try {
 			fs.start();
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.exit(1);
 		}
 
@@ -230,7 +230,7 @@ public class GameEngine {
 		/**
 		 * Makes Visible Control Panel If Enabled
 		 */
-		if(Constants.GUI_ENABLED) {
+		if(serverConfig.isGuiEnabled()) {
 			ControlPanel panel = new ControlPanel();
 			panel.initComponents();
 			panel.setVisible(true);
@@ -248,7 +248,7 @@ public class GameEngine {
 		 */
 		scheduler.scheduleAtFixedRate(new Runnable() {
 			int gameTicksIncrementor;
-			final int printInfoTick = Constants.CYCLE_LOGGING_TICK;
+			final int printInfoTick = serverConfig.getCycleLoggingTick();
 			public void run() {
 				Stopwatch stopwatch = Stopwatch.createStarted();
 				/**
@@ -303,13 +303,6 @@ public class GameEngine {
 					long durationCycleEventHandler = System.currentTimeMillis() - startCycleEventHandler;
 					checkAndLogDuration("CycleEventHandler", durationCycleEventHandler);
 					long startIntegrationEvents = System.currentTimeMillis();
-					if (Constants.WEBSITE_INTEGRATION) {
-						PlayersOnlineWebsite.addUpdatePlayersOnlineTask();
-						RegisteredAccsWebsite.addUpdateRegisteredUsersTask();
-					}
-					if (DiscordActivity.playerCount) {
-						DiscordActivity.updateActivity();
-					}
 					long durationIntegrationEvents = System.currentTimeMillis() - startIntegrationEvents;
 					checkAndLogDuration("IntegrationEvents", durationIntegrationEvents);
 					long startSaveEvents = System.currentTimeMillis();

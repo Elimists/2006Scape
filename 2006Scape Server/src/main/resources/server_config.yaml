@@ -1,0 +1,11 @@
+serverName: "2006scape"
+guiEnabled: false
+serverDebugEnabled: false
+fileServer: true
+httpPort: 8080
+jaggrabPort: 43595
+worldId: 1
+maxPlayer: 20
+timeout: 60
+enableCycleLogging: true
+cycleLoggingTick: 10

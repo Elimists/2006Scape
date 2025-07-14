@@ -1,44 +1,39 @@
 package com.rs2;
 
+import com.rs2.config.ConfigLoaderV2;
+import com.rs2.config.GameConfig;
+import com.rs2.config.ServerConfig;
 import com.rs2.game.content.StaticNpcList;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 public class Constants {
 
-    /**
-     * The Variables Below Can Be Also Changed On Server Startup By Using The ConfigLoader
-     *
-     * SERVER_NAME Sets The Name The Server Will Use
-     * WEBSITE_LINK Defines The Server Website Links
-     * WORLD Sets The Servers World ID
-     * The HTTP Server port.
-     * The JAGGRAB Server port.
-     * GUI_ENABLED Enables/Disables The Server Control Panel
-     * MAX_PLAYERS Sets The Maximum Amount Of Players Allow To Be Logged In At Once
-     * SAVE_TIMER Sets In Seconds How Often The Server Shouls Auto-Save All Characters
-     * RESPAWN_X Sets The X Coordinate That You Will Respawn At After Death
-     * RESPAWN_Y Sets The Y Coordinate That You Will Respawn At After Death
-     * FILE_SERVER Sets Whether The FileServer Should Run With The Server
-     * SERVER_DEBUG Sets Whether The Server Should Start In Debug Mode
-     * The Amount Of Time Before A Player Timeouts From A Bad Connection
-     * MEMBERS_ONLY Sets Whether The World Is Members Only
-     * TUTORIAL_ISLAND Enables/Disables Tutorial Island For Players On First Login
-     * PARTY_ROOM_DISABLED Enables/Disables The Party Room Should Be Disabled
-     * CLUES_ENABLED Enables/Disables Clue Scrolls
-     * ITEM_REQUIREMENTS Enables/Disables Item Requirements for All Players
-     * ADMIN_CAN_TRADE Defines Whether Admins Can Trade
-     * ADMIN_DROP_ITEMS Defines Whether Admins Can Drop Items
-     * ADMIN_CAN_SELL_ITEMS Defines Whether Admins Can Sell Items
-     * VARIABLE_XP_RATE Allows Players To Choose An XP Rate Set In VARIABLE_XP_RATES
-     * VARIABLE_XP_RATES Defines The XP Rates That Should Be Available To Players When VARIABLE_XP_RATES is true(Array Must Contain Four Entries)
-     * XP_RATE Sets The XP Rate Multiplier For All Players/Skills If VARIABLE_XP_RATES is false
-     * WEBSITE_INTEGRATION Enables/Disables Website Features(Total Accounts Registered & Players Online)
-     */
-    public static String SERVER_NAME = "2006Scape", WEBSITE_LINK = "https://2006Scape.org";
+    public static final ServerConfig SERVER_CONFIG;
+
+    static {
+        try {
+            SERVER_CONFIG = ConfigLoaderV2.loadServerConfig();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final GameConfig GAME_CONFIG;
+
+    static {
+        try {
+            GAME_CONFIG = ConfigLoaderV2.loadGameConfig();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String SERVER_NAME = SERVER_CONFIG.getServerName();
+    public static String WEBSITE_LINK = "";
     public static int WORLD = 1, HTTP_PORT = 8080, JAGGRAB_PORT = 43595, MAX_PLAYERS = 200, SAVE_TIMER = 120, TIMEOUT = 60, RESPAWN_X = 3222, RESPAWN_Y = 3218,  CYCLE_LOGGING_TICK = 10;
     public static boolean GUI_ENABLED = false, FILE_SERVER = true, SERVER_DEBUG = false, MEMBERS_ONLY = false, TUTORIAL_ISLAND = false,
             PARTY_ROOM_DISABLED = false, CLUES_ENABLED = true, ITEM_REQUIREMENTS = true,

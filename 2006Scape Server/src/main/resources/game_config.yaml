@@ -1,0 +1,13 @@
+xpRate: 1.0
+enableXpRateMultipliers: false
+xpRateMultipliers: [1, 2, 5, 10]
+membersOnlyMode: false
+enableTutorialIsland: false
+enablePartyRoom: true
+enableClueScrolls: true
+enableAdminTrade: false
+enableAdminSell: false
+respawnCoordinatesX: 3222
+respawnCoordinatesY: 3218
+saveIntervalSeconds: 120
+enforceItemRequirements: true
