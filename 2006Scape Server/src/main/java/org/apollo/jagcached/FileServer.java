@@ -91,14 +91,14 @@ public final class FileServer {
 			String workingDir = System.getProperty("user.dir");
 			log.error("""
 				Working Directory = {}
-				************************************
+				**************************************************************
 				WARNING: Could not find the data/cache folder.
 				You're likely running from the wrong working directory!
 
 				In IntelliJ:
 				  - Go to "Run > Edit Configurations"
 				  - Set "Working Directory" to: "2006Scape/2006Scape Server"
-				************************************
+				**************************************************************
 				Exiting...
 				""", workingDir);
 			System.exit(1);
