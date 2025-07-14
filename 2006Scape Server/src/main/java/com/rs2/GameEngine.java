@@ -194,7 +194,7 @@ public class GameEngine {
 		ResourceLeakDetector.setLevel(Level.DISABLED);
 		FileServer fs = new FileServer();
 		try {
-			fs.start();
+			fs.start(serverConfig.getHttpPort(), serverConfig.getJaggrabPort(), serverConfig.getFileServerPort());
 		} catch (Exception e) {
 			System.exit(1);
 		}
@@ -206,6 +206,7 @@ public class GameEngine {
 		/**
 		 * Initialise Handlers
 		 */
+		System.out.println("Initializing handlers...");
 		RegionFactory.load(cache);
 		Doors.getSingleton().load();
 		DoubleDoors.getSingleton().load();
@@ -225,7 +226,7 @@ public class GameEngine {
 		/**
 		 * Server Successfully Loaded
 		 */
-		System.out.println("World Server listening on " + fs.service.toString());
+		System.out.println("World Server listening on " + serverConfig.getHttpPort());
 
 		/**
 		 * Makes Visible Control Panel If Enabled

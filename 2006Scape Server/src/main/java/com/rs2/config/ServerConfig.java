@@ -13,6 +13,7 @@ public class ServerConfig {
     private boolean fileServer;
     private int httpPort;
     private int jaggrabPort;
+    private int fileServerPort;
     private int worldId;
     private int maxPlayer;
     private int timeout;

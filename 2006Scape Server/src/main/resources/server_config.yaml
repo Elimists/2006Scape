@@ -3,7 +3,8 @@ guiEnabled: false
 serverDebugEnabled: false
 fileServer: true
 httpPort: 8080
-jaggrabPort: 43595
+jaggrabPort: 43594
+fileServerPort: 43595
 worldId: 1
 maxPlayer: 20
 timeout: 60
