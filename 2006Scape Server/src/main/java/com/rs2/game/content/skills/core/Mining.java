@@ -127,11 +127,11 @@ public class Mining {
         }
 
         public int getRequiredLevel() {
-            return levelReq;
+            return levelReq > 60 ? levelReq - 30 : levelReq;
         }
 
         public int getXp() {
-            return xp;
+            return xp * 10;
         }
 
         public int getTimer() {

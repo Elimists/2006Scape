@@ -19,13 +19,13 @@ public class Pickpocket extends SkillHandler {
 
 	public static enum npcData {
 
-		MAN(new int[] { 1, 2, 3, 3222 }, 1, 8.0, 1, 5, new int[][] {
+		MAN(new int[] { 1, 2, 3, 3222 }, 1, 432.0, 1, 5, new int[][] {
 				{995, 3},
 		}),
-		WOMEN(new int[] { 4, 5, 6 }, 1, 8.0, 1, 5, new int[][] {
+		WOMEN(new int[] { 4, 5, 6 }, 1, 432.0, 1, 5, new int[][] {
 				{995, 3},
 		}),
-		FARMER(new int[] { 7, 1757 }, 10, 14.5, 1, 5, new int[][]{
+		FARMER(new int[] { 7, 1757 }, 10, 144.5, 1, 5, new int[][]{
 				{995, 9},
 				{5318, 4},
 		}),
@@ -61,7 +61,7 @@ public class Pickpocket extends SkillHandler {
 				{1523, 1},
 				{1944, 1},
 		}),
-		MASTER_FARMER(new int[] { 2234, 2235 }, 38, 43.0, 2, 5, new int[][] {
+		MASTER_FARMER(new int[] { 2234, 2235 }, 38, 780.0, 2, 5, new int[][] {
 			{5318, 1, 2},
 			{5319, 1, 2},
 			{5324, 1, 2},
@@ -118,7 +118,7 @@ public class Pickpocket extends SkillHandler {
 				{995, 60},
 				{4593, 1},
 		}),
-		PALADIN(new int[] { 20 }, 70, 151.8, 5, 4, new int[][]{
+		PALADIN(new int[] { 20 }, 70, 951.8, 5, 4, new int[][]{
 				{995, 80},
 				{562, 2},
 		}),
@@ -130,7 +130,7 @@ public class Pickpocket extends SkillHandler {
 				{2150, 1},
 				{2162, 1},
 		}),
-		HERO(new int[] { 21 }, 80, 273.3, 4, 6, new int[][]{
+		HERO(new int[] { 21 }, 80, 1273.3, 4, 6, new int[][]{
 				{995, 300},
 				{560, 2},
 				{565, 1},

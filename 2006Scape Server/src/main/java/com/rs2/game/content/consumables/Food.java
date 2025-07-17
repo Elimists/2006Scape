@@ -190,7 +190,7 @@ public class Food {
 		}
 
 		private int getHeal() {
-			return heal;
+			return heal * 4;
 		}
 
 		public int replaceWith() {

@@ -13,7 +13,7 @@ public class GameConfig {
 
     private double xpRate;
     private boolean enableXpRateMultipliers;
-    private List<Integer> xpRateMultipliers;
+    private int[] xpRateMultipliers;
 
     private boolean membersOnlyMode;
     private boolean enableTutorialIsland;

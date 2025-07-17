@@ -145,15 +145,17 @@ public enum SmithingData {
 	}
 	
 	public int getXp() {
-		return xp;
+        return xp * 5;
 	}
-	
-	public int getLvl() {
-		return lvl;
-	}
-	
-	public int getAmount() {
-		return barsNeeded;
+
+    public int getLvl() {
+        return lvl > 70 ? lvl - 40 : lvl;
+    }
+
+
+    public int getAmount() {
+
+        return barsNeeded > 3 ? 2: 1;
 	}
 
 	public static SmithingData forId(int itemId) {

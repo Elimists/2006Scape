@@ -58,7 +58,8 @@ public class Slayer {
 		}
 
 		public int getCombatRequirement() {
-			return combatReq;
+
+			return combatReq > 40 ? combatReq - 30: combatReq;
 		}
 
 		public String getLocation() {
@@ -144,11 +145,12 @@ public class Slayer {
 		}
 		
 		public int getExp() {
-			return exp;
+
+			return exp * 17;
 		}
 
 		public int getLevelReq() {
-			return levelReq;
+			return levelReq > 60 ? levelReq - 40 : levelReq;
 		}
 
 		public int getDifficulty() {

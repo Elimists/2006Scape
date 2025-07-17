@@ -3076,8 +3076,8 @@
     ]
   },
   {
-    "buyModifier": 2,
-    "sellModifier": 2,
+    "buyModifier": 0,
+    "sellModifier": 40,
     "name": "Nurmof's Pickaxe Shop.",
     "id": 59,
     "items": [
@@ -3099,11 +3099,11 @@
       },
       {
         "itemId": 1271,
-        "itemAmount": 2
+        "itemAmount": 2999
       },
       {
         "itemId": 1275,
-        "itemAmount": 1
+        "itemAmount": 2999
       }
     ]
   },
@@ -3180,8 +3180,8 @@
     ]
   },
   {
-    "buyModifier": 2,
-    "sellModifier": 2,
+    "buyModifier": 1,
+    "sellModifier": 76,
     "name": "Zenesha's Plate Mail Body Shop.",
     "id": 62,
     "items": [

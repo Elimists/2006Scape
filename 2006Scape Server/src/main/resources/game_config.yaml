@@ -1,6 +1,6 @@
-xpRate: 1.0
+xpRate: 2.0
 enableXpRateMultipliers: false
-xpRateMultipliers: [1, 2, 5, 10]
+xpRateMultipliers: [1, 3, 5, 9]
 membersOnlyMode: false
 enableTutorialIsland: false
 enablePartyRoom: true
